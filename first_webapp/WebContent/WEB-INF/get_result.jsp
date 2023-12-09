@@ -5,7 +5,7 @@
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
-        <title>クエリパラメータのテスト</title>
+        <title>クエリパラメータのテス</title>
     </head>
     <body>
         <p>送信パラメータ：<%= request.getAttribute("q") %></p>
