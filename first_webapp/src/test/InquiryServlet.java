@@ -1,6 +1,8 @@
 package test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,10 +35,29 @@ public class InquiryServlet extends HttpServlet {
         String usermail = request.getParameter("usermail");
         String content  = request.getParameter("content");
 
-        // JSPに値を送る
-        request.setAttribute("username", username);
-        request.setAttribute("usermail", usermail);
-        request.setAttribute("content", content);
+        // 入力項目チェック（バリデーション）
+        List<String> errors = new ArrayList<String>();
+
+        if(username == null || username.equals("")) {  /* 氏名 */
+            errors.add("氏名を入力してください");
+        }
+        if(usermail == null || usermail.equals("")) {  /* メールアドレス */
+            errors.add("メールアドレスを入力してください");
+        }
+        if(content == null || content.equals("")) {    /* お問い合わせ内容 */
+            errors.add("お問い合わせ内容を入力してください");
+        }
+
+        // 入力内容にエラーがあったかどうか
+        if(errors.size() > 0) {
+            // JSPにエラー内容を送る
+            request.setAttribute("errors", errors);
+        } else {
+            // JSPに入力データを送る
+            request.setAttribute("username", username);
+            request.setAttribute("usermail", usermail);
+            request.setAttribute("content", content);
+        }
 
         // ビューとなるJSPを指定して表示する
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/inquiry_result.jsp");
